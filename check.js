@@ -1,4 +1,4 @@
-const API="https://www.apple.com/jp/shop/refurbished/iphone?ajax=true"
+const URL="https://www.apple.com/jp/shop/refurbished/iphone"
 
 const TOKEN=process.env.LINE_CHANNEL_ACCESS_TOKEN
 const USER=process.env.LINE_USER_ID
@@ -21,16 +21,12 @@ async function notify(text){
 
 async function run(){
 
- const res=await fetch(API)
- const data=await res.json()
+ const res=await fetch(URL)
+ const html=await res.text()
 
- const items=data.tiles.map(v=>v.title)
+ if(html.includes("Air")){
 
- const air=items.filter(v=>v.includes("Air"))
-
- if(air.length){
-
-  await notify("整備済みに iPhone Air が追加されました\n\n"+air.join("\n"))
+  await notify("整備済みに iPhone Air が追加された可能性があります\nhttps://www.apple.com/jp/shop/refurbished/iphone")
 
  }
 
