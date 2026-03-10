@@ -1,0 +1,21 @@
+name: refurb-check
+
+on:
+ schedule:
+  - cron: "*/10 * * * *"
+
+jobs:
+ check:
+  runs-on: ubuntu-latest
+
+  steps:
+   - uses: actions/checkout@v3
+
+   - uses: actions/setup-node@v3
+     with:
+      node-version: 18
+
+   - run: node check.js
+     env:
+      LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+      LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
